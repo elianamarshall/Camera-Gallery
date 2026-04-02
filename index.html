@@ -5,9 +5,30 @@
     <script type="module" src="script.js"></script>
   </head>
   <body>
-    <div id="camera-popup">
-      <button id="close-button">X</button>
-        <div id="popup-content"></div>
+    <div class="popup" id="intro-popup">
+      <button class="bttn" id="intro-button">X</button>
+      The following camera gallery features my own personal collection of cameras. Each camera was modelled using photogrammetry, so these cameras are my exact cameras, aside from the defects created by the photogrammetry scan. 
+      <br><br>
+      The surrounding environment was designed in Blender, with a few models imported from Sketchfab (credited below).
+      <br><br>
+      I hope you enjoy exploring my collection!
+      <br><br>
+      - Eliana Marshall
+      <br><br>
+      <br><br>
+      <strong>Credits</strong>
+      <br><br>
+      Kane22, <a href=https://sketchfab.com/3d-models/vine-f75dc3a6c7174304a91a7fae63f74a9d>Vine</a>
+      <br> Yannick Deharo, <a href=https://sketchfab.com/3d-models/animated-fire-ebb16a3df22247dd990a04585de64741>Animated fire</a>
+      <br> LIGHTSTAR GROUP, <a href=https://sketchfab.com/3d-models/779508-ingenuo-osgona-sconce-c96ae98648e8456db9eee9f0bb2b2447>779508 Ingenuo Osgona Sconce</a>
+      <br> Francesco Coldesina, <a href=https://sketchfab.com/3d-models/old-fireplace-14197959b3a746c0975711657ec240f4>Old Fireplace</a>
+    </div>
+    <div class="popup" id="camera-popup">
+      <button class="bttn" id="close-button">X</button>
+      <div id="popup-content"></div>
+    </div>
+    <div id="loading-screen">
+      <div id="loading-text">Loading... 0%</div>
     </div>
   </body>
 </html>

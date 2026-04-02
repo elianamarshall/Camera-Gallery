@@ -2,7 +2,7 @@ body {
     margin: 0;
 }
 
-#camera-popup {
+.popup {
     position: absolute;
     bottom: 15vh;
     right: 5vw;
@@ -19,11 +19,18 @@ body {
     transition: opacity 0.3s ease;
 }
 
-#camera-popup.show {
+.popup.show {
     opacity: 1;
 }
 
-#close-button {
+#intro-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.bttn {
     position: absolute;
     top: 10px;
     right: 10px;
@@ -38,10 +45,31 @@ body {
     opacity: 0;
 }
 
-#close-button:hover {
+.bttn:hover {
     background-color: red;
 }
 
-#close-button.show {
+.bttn.show {
     opacity: 1;
+}
+
+#loading-screen {
+    position: fixed;
+    inset: 0;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+#loading-text {
+    color: white;
+    font-size: 24px;
+    font-family: monospace;
+}
+
+a {
+    color: orange;
+    text-decoration: none;
 }

@@ -17,6 +17,12 @@ let lookTarget = new THREE.Vector3(); //tracks where the camera should look when
 let lookingAtObject = false; //tracks whether or not the camera is currently looking at an object
 const interactableObjects = []; //tracks the objects that are interactable for raycasting
 
+const loadingScreen = document.getElementById('loading-screen');
+const loadingText = document.getElementById('loading-text');
+
+const totalModels = 24;
+let loadedModels = 0;
+
 
 // CAMERA
 
@@ -77,7 +83,34 @@ function optimizeModel(obj) {
 }
 
 
-// LOADER FUNCTION
+// LOADER FUNCTION & LOADING SCREEN
+
+//updates the loading screen when a new model is loaded into the scene, and fades it out when all models are loaded
+function updateLoadingScreen() {
+    const progress = Math.floor((loadedModels / totalModels) * 100);
+    loadingText.textContent = `Loading... ${progress}%`;
+
+    if (loadedModels == totalModels) {
+        loadingScreen.style.transition = 'opacity 1s ease';
+        loadingScreen.style.opacity = 0;
+
+        setTimeout(() => {
+            loadingScreen.style.display = 'none';
+
+            //display the intro pop-up
+            const introPopup = document.getElementById('intro-popup');
+            const introButton = document.getElementById('intro-button');
+
+            introPopup.classList.add('show');
+            introButton.classList.add('show');
+
+            introButton.addEventListener('click', () => {
+                introPopup.classList.remove('show');
+                introClose.classList.remove('show');
+            });
+        }, 1000);
+    }
+}
 
 //loads models with optimizations and adds them to the scene and list of interactable objects
 function loadModel(path, scale, pos, rot, info) {
@@ -93,20 +126,22 @@ function loadModel(path, scale, pos, rot, info) {
 
         scene.add(obj);
         interactableObjects.push(obj);
+
+        loadedModels++;
+        updateLoadingScreen();
     });
 }
 
 
-// BACKGROUND SCENE
+// MODELS
 
 loader.load('./models/scene.glb', (gltfScene) => {
     const obj = gltfScene.scene;
     optimizeModel(obj);
     scene.add(obj);
+    loadedModels++;
+    updateLoadingScreen();
 });
-
-
-// MODELS
 
 loadModel('./models/brownieE.glb', 3, [6.1, 2.8, -1], Math.PI + 0.7, {
     name: 'Kodak No. 2 Brownie Box Model E',
