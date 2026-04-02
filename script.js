@@ -180,7 +180,11 @@ window.addEventListener('click', () => {
 function setHighlight(object, on) {
     object.traverse((child) => {
         if (child.isMesh && child.material && child.material.emissive) {
-            child.material.emissive.set(on ? 0x333333 : 0x000000);
+            if (on && !lookingAtObject) {
+                child.material.emissive.set(0x333333);
+            } else {
+                child.material.emissive.set(0x000000);
+            }
         }
     });
 }
@@ -233,7 +237,7 @@ function animate() {
             .addVectors(camera.position, currentLook);
 
         camera.lookAt(newLookAt);
-        
+
         //if the camera is close enough to the target position, stop zooming
         if (camera.position.distanceTo(targetPosition) < 0.05) {
             isZooming = false;
