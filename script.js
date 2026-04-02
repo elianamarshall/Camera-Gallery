@@ -4,6 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 const scene = new THREE.Scene();
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
+const cameraPopup = document.getElementById('camera-popup'); //get the camera popup element for displaying camera information
 
 let hoveredObject = null; //tracks the currently hovered object
 let targetPosition = new THREE.Vector3(); //tracks where the camera should move to when zooming in on an object
@@ -242,6 +243,13 @@ function animate() {
         if (camera.position.distanceTo(targetPosition) < 0.05) {
             isZooming = false;
         }
+    }
+
+    //show the camera popup if we are looking at an object but are not actively zooming in
+    if(lookingAtObject && !isZooming) {
+        cameraPopup.classList.add('show');
+    } else {
+        cameraPopup.classList.remove('show');
     }
     renderer.render(scene, camera);
 }
