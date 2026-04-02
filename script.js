@@ -107,7 +107,7 @@ function updateLoadingScreen() {
 
             introButton.addEventListener('click', () => {
                 introPopup.classList.remove('show');
-                introClose.classList.remove('show');
+                introButton.classList.remove('show');
                 introOpen = false;
             });
         }, 1000);
@@ -194,7 +194,7 @@ loadModel('./models/browniePremo.glb', 3, [-6.1, 2.8, -1], Math.PI - 0.4, {
 });
 
 loadModel('./models/advantixT70.glb', 3, [6.1, 1.75, -1], -1.8, {
-    name: 'Kodak ADVANTix T70',
+    name: 'Kodak ADVANTiX T70',
     year: '1998',
     description: 'The ADVANTiX T70 features a safety interlock system, which only allows the film door to open after the film has been completely rewound into the cassette. This is designed to prevent accidental exposure of the film. The T70 also included three different built-in aspect ratios for photos: Classic (C), High Definition (H), and Panorama (P). Additionally, the T70 had an automatic memory system, which would record data like shutter speed and aperture on a magnetic strip.'
 });
