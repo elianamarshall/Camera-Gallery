@@ -5,6 +5,9 @@ const scene = new THREE.Scene();
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 const cameraPopup = document.getElementById('camera-popup'); //get the camera popup element for displaying camera information
+const closeButton = document.getElementById('close-button'); //get the close button element for closing the camera popup
+const origCameraPos = new THREE.Vector3(0, 3.5, -6.5); //store the original camera position to return to when closing the popup
+const origLookTarget = new THREE.Vector3(0, 2, 0); //store the original look target to return to when closing the popup
 
 let hoveredObject = null; //tracks the currently hovered object
 let targetPosition = new THREE.Vector3(); //tracks where the camera should move to when zooming in on an object
@@ -18,7 +21,7 @@ const interactableObjects = []; //tracks the objects that are interactable for r
 
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.rotation.y = Math.PI;
-camera.position.set(0, 3.5, -6.5);
+camera.position.copy(origCameraPos);
 camera.rotation.x = 0.2;
 
 
@@ -83,6 +86,7 @@ function loadModel(path, scale, pos, rot) {
         obj.scale.set(scale, scale, scale);
         obj.position.set(...pos);
         obj.rotation.y = rot;
+        //obj.userData = info;
 
         optimizeModel(obj);
 
@@ -175,6 +179,16 @@ window.addEventListener('click', () => {
     isZooming = true;
 });
 
+
+//handles closing the object popup and returning the camera to its original position
+closeButton.addEventListener('click', () => {
+    targetPosition.copy(origCameraPos);
+    lookTarget.copy(origLookTarget);
+    lookingAtObject = false;
+    isZooming = true;
+});
+
+
 // HIGHLIGHT FUNCTION
 
 //applies an emissive highlight to the hovered object and its children to ensure the whole object is highlighted
@@ -248,8 +262,10 @@ function animate() {
     //show the camera popup if we are looking at an object but are not actively zooming in
     if(lookingAtObject && !isZooming) {
         cameraPopup.classList.add('show');
+        closeButton.classList.add('show');
     } else {
         cameraPopup.classList.remove('show');
+        closeButton.classList.remove('show');
     }
     renderer.render(scene, camera);
 }
