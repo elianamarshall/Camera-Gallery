@@ -6,6 +6,10 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
 let hoveredObject = null; //tracks the currently hovered object
+let targetPosition = new THREE.Vector3(); //tracks where the camera should move to when zooming in on an object
+let isZooming = false; //tracks whether or not the camera is zooming in on an object
+let lookTarget = new THREE.Vector3(); //tracks where the camera should look when zooming in on an object
+let lookingAtObject = false; //tracks whether or not the camera is currently looking at an object
 const interactableObjects = []; //tracks the objects that are interactable for raycasting
 
 
@@ -143,10 +147,36 @@ window.addEventListener('mousemove', (event) => {
     mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 });
 
+//handles clicking on a camera to zoom in on it
+window.addEventListener('click', () => {
+    if (!hoveredObject || lookingAtObject) return; //do nothing if there's no hovered object or if we're already looking at an object
+
+    lookingAtObject = true; //set lookingAtObject to true to prevent zooming in on another object while already zoomed in
+    
+    //calculate the center of the hovered object for camera targeting
+    const box = new THREE.Box3().setFromObject(hoveredObject);
+    const center = new THREE.Vector3();
+    box.getCenter(center);
+
+    //offset the look target slightly to the left to allow space for a pop-up on the right
+    const offset = new THREE.Vector3(-0.45, 0, 0);
+    lookTarget.copy(center).add(offset);
+
+    //calculate the target camera position by moving back from the center along the camera's current direction
+    const direction = new THREE.Vector3()
+        .subVectors(camera.position, center)
+        .normalize();
+
+    //set the target position a fixed distance from the center in the direction away from the camera
+    const distance = 0.75;
+    targetPosition.copy(center).add(direction.multiplyScalar(distance));
+
+    isZooming = true;
+});
 
 // HIGHLIGHT FUNCTION
 
-//applies a subtle emissive highlight to the hovered object and its children
+//applies an emissive highlight to the hovered object and its children to ensure the whole object is highlighted
 function setHighlight(object, on) {
     object.traverse((child) => {
         if (child.isMesh && child.material && child.material.emissive) {
@@ -183,6 +213,31 @@ function animate() {
             setHighlight(hoveredObject, false);
         }
         hoveredObject = null;
+    }
+
+    if (isZooming) {
+        //move camera smoothly toward the target position
+        camera.position.lerp(targetPosition, 0.05);
+
+        //force the camera to look at the look target while zooming in by interpolating the camera's current look direction
+        const currentLook = new THREE.Vector3();
+        camera.getWorldDirection(currentLook);
+
+        const desiredDir = new THREE.Vector3()
+            .subVectors(lookTarget, camera.position)
+            .normalize();
+
+        currentLook.lerp(desiredDir, 0.05);
+
+        const newLookAt = new THREE.Vector3()
+            .addVectors(camera.position, currentLook);
+
+        camera.lookAt(newLookAt);
+        
+        //if the camera is close enough to the target position, stop zooming
+        if (camera.position.distanceTo(targetPosition) < 0.05) {
+            isZooming = false;
+        }
     }
     renderer.render(scene, camera);
 }
