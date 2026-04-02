@@ -10,6 +10,7 @@ const closeButton = document.getElementById('close-button'); //get the close but
 const origCameraPos = new THREE.Vector3(0, 3.5, -6.5); //store the original camera position to return to when closing the popup
 const origLookTarget = new THREE.Vector3(0, 2, 0); //store the original look target to return to when closing the popup
 
+let introOpen = true; //tracks whether or not the intro pop-up is open
 let hoveredObject = null; //tracks the currently hovered object
 let targetPosition = new THREE.Vector3(); //tracks where the camera should move to when zooming in on an object
 let isZooming = false; //tracks whether or not the camera is zooming in on an object
@@ -107,6 +108,7 @@ function updateLoadingScreen() {
             introButton.addEventListener('click', () => {
                 introPopup.classList.remove('show');
                 introClose.classList.remove('show');
+                introOpen = false;
             });
         }, 1000);
     }
@@ -299,7 +301,7 @@ window.addEventListener('mousemove', (event) => {
 
 //handles clicking on a camera to zoom in on it
 window.addEventListener('click', () => {
-    if (!hoveredObject || lookingAtObject || isZooming) return; //do nothing if there's no hovered object or if we're already looking at an object
+    if (!hoveredObject || lookingAtObject || isZooming || introOpen) return; //do nothing if there's no hovered object or if we're already looking at an object
 
     lookingAtObject = true; //set lookingAtObject to true to prevent zooming in on another object while already zoomed in
     
@@ -347,7 +349,7 @@ closeButton.addEventListener('click', () => {
 function setHighlight(object, on) {
     object.traverse((child) => {
         if (child.isMesh && child.material && child.material.emissive) {
-            if (on && !lookingAtObject) {
+            if (on && !lookingAtObject && !introOpen) {
                 child.material.emissive.set(0x333333);
             } else {
                 child.material.emissive.set(0x000000);
