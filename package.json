@@ -7,12 +7,23 @@
   "type": "commonjs",
   "main": "script.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "dev": "vite",
+  "build": "vite build",
+  "preview": "vite preview"
+},
   "dependencies": {
     "three": "^0.183.2"
   },
   "devDependencies": {
     "vite": "^7.3.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elianamarshall/Camera-Gallery.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/elianamarshall/Camera-Gallery/issues"
+  },
+  "homepage": "https://github.com/elianamarshall/Camera-Gallery#readme"
 }
