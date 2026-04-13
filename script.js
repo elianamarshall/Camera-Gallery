@@ -21,7 +21,7 @@ const interactableObjects = []; //tracks the objects that are interactable for r
 const loadingScreen = document.getElementById('loading-screen');
 const loadingText = document.getElementById('loading-text');
 
-const totalModels = 24;
+const totalModels = 26;
 let loadedModels = 0;
 
 
@@ -281,6 +281,18 @@ loadModel('./models/konica.glb', 3, [-5.8, 0.7, -1.4], Math.PI - 0.9, {
     name: 'Konica Z-Up 110 VP',
     year: '1998',
     description: 'The Konica Z-Up was in the very last generation of film cameras before digital photography became widespread. It featured fully automatic exposure and autofocus to make it ideal for beginners. It only requires a single lithium battery and 35mm film, which are both still in production, so this camera is still easily usable.'
+});
+
+loadModel('./models/starmiteII.glb', 3, [-3.5, 0.7, -1.35], Math.PI - 0.5, {
+    name: 'Kodak Brownie Starmite II',
+    year: '1962',
+    description: 'The Starmite II was a relatively simple yet popular camera of the 60s. One of its key features is its built-in flash socket, which was revolutionary at the time because most cameras required attaching a separate flashgun. The Starmite II was a part of Kodak’s Star series, which also includes another camera in my collection, the Starflash. Over 10 million cameras in the Star series were made between 1957 and the late 1960s.'
+});
+
+loadModel('./models/disc6000.glb', 3, [5.8, 3.7, -1.4], Math.PI + 0.7, {
+    name: 'Kodak Disc 6000',
+    year: '1982',
+    description: 'The Kodak Disc 6000 was designed to to look like the “future of photography” and aimed to be an easy to use, pocket-sized camera. The Disc 6000 was also marketed for its fast flash, being capable of firing again in 1.3 seconds. The name of this camera comes from its film type. Rather than using a roll of film, it used a circular plastic disc that held 15 tiny 10mm x 8mm negatives. Unfortunately, this camera was a flop because the small negatives resulted in low-quality grainy photos.'
 });
 
 
