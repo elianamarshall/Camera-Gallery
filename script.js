@@ -21,7 +21,7 @@ const interactableObjects = []; //tracks the objects that are interactable for r
 const loadingScreen = document.getElementById('loading-screen');
 const loadingText = document.getElementById('loading-text');
 
-const totalModels = 26;
+const totalModels = 27;
 let loadedModels = 0;
 
 
@@ -293,6 +293,12 @@ loadModel('./models/disc6000.glb', 3, [5.8, 3.7, -1.4], Math.PI + 0.7, {
     name: 'Kodak Disc 6000',
     year: '1982',
     description: 'The Kodak Disc 6000 was designed to to look like the “future of photography” and aimed to be an easy to use, pocket-sized camera. The Disc 6000 was also marketed for its fast flash, being capable of firing again in 1.3 seconds. The name of this camera comes from its film type. Rather than using a roll of film, it used a circular plastic disc that held 15 tiny 10mm x 8mm negatives. Unfortunately, this camera was a flop because the small negatives resulted in low-quality grainy photos.'
+});
+
+loadModel('./models/flash20.glb', 3, [-5.8, 3.7, -1.4], Math.PI + 1.1, {
+    name: 'Kodak Brownie Flash 20',
+    year: '1959',
+    description: 'The Flash 20 was advanced for its time in terms of point-and-shoot cameras. It offered three apertures for different lighting conditions, zone focusing, built-in flash, and an interlocked shutter to prevent double exposures. Most notably, it has a molded blue plastic body making it very lightweight.'
 });
 
 
