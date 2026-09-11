@@ -14,10 +14,10 @@ canvas {
     bottom: 15vh;
     right: 5vw;
     color: rgba(255, 255, 255, 0.8);
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 2vh 2vw;
+    background-color: rgba(0, 0, 0, 0.65);
+    padding: 3vh 3vw;
     border-radius: 10px;
-    width: 30vw;
+    width: 40vw;
     height: 50vh;
     font-family: 'Courier New', Courier, monospace;
     opacity: 0;

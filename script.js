@@ -376,28 +376,28 @@ const CAMERAS = [
         }
     },
     {
-        path: 'flash20.glb', scale: 3, pos: [-5.8, 3.7, -1.4], rot: Math.PI - 0.3, info: {
+        path: 'flash20.glb', scale: 3, pos: [-5.8, 3.7, -1.4], rot: Math.PI - 1, info: {
             name: 'Kodak Brownie Flash 20',
             year: '1959',
             description: 'The Flash 20 was advanced for its time in terms of point-and-shoot cameras. It offered three apertures for different lighting conditions, zone focusing, built-in flash, and an interlocked shutter to prevent double exposures. Most notably, it has a molded blue plastic body making it very lightweight.'
         }
     },
     {
-        path: 'advantixC400.glb', scale: 3, pos: [4.7, 3.7, -1.35], rot: Math.PI + 0.3, info: {
+        path: 'advantixC400.glb', scale: 3, pos: [4.7, 3.6, -1.35], rot: Math.PI + 0.3, info: {
             name: 'Kodak Advantix C400',
             year: '2000',
             description: 'The Advantix C400 was a compact, fully automatic point-and-shoot camera that used the discontinued Advanced Photo System (APS) film. It featured a distinctive flip-up lens cover that was designed to both protect the lens and house the built-in flash. Interestingly, the flip-up flash placement creates extra distance between the flash and the lens, naturally reducing red-eye in photos.'
         }
     },
     {
-        path: 'automatic8.glb', scale: 3, pos: [-3.5, 3.7, -1.35], rot: Math.PI - 0.5, info: {
+        path: 'automatic8.glb', scale: 3, pos: [2.4, 3.55, -1.35], rot: Math.PI + 0.7, info: {
             name: 'Kodak Automatic 8 Movie Camera',
             year: '1962',
             description: 'Back in 1962, the Automatic 8 was introduced as a budget-friendly, foolproof home movie camera that used an “electric eye” to eliminate manual settings. The “electric eye” was a built-in selenium photocell light meter that automatically and continuously adjusted the aperture as you filmed. This meant that you didn’t have to adjust any exposure settings during filming. Despite having the automatic light meter, the camera itself did not have batteries because it instead relied on a spring-wound clockwork motor. That means it’s a wind-up camera!'
         }
     },
     {
-        path: 'powerShotS1.glb', scale: 3, pos: [-3.5, 3.7, -1.4], rot: Math.PI - 0.3, info: {
+        path: 'powerShotS1.glb', scale: 3, pos: [-3.5, 3.65, -1.4], rot: Math.PI - 0.3, info: {
             name: 'Canon PowerShot S1 IS',
             year: '2004',
             description: 'The PowerShot S1 IS was truly groundbreaking for its time. It had the world’s first lens-based Ultrasonic Motor (USM), which allowed for both fast and extremely quiet zooming. This was an ideal camera for wildlife photographers since the quiet zooming allowed for pictures to be taken without scaring animals away. The “IS” in the name stands for Image Stabilizer, which combats blur at the far end of its zoom capabilities to keep far off images crisp and clean.'
@@ -411,7 +411,7 @@ const CAMERAS = [
         }
     },
     {
-        path: 'vivitar.glb', scale: 3, pos: [3.5, 3.7, -1.35], rot: Math.PI + 0.3, info: {
+        path: 'vivitar.glb', scale: 3, pos: [3.5, 3.73, -1.35], rot: Math.PI + 0.3, info: {
             name: 'Vivitar Tele-835AW',
             year: '1979',
             description: 'This Vivitar was a vintage pocket camera that featured a motorized auto-wind mechanism, which is what the AW stands for. Unlike most other pocket cameras that used 110 film cartridges, the auto-wind feature meant that it no longer required a manual thumb wheel or level to advance the film. Another neat feature of this camera is its EX button. When using the flash at close range, pressing the EX button would put a grey filter in front of the lens to prevent the subject’s face from being overexposed.'
