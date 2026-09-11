@@ -24,9 +24,19 @@ const loadingScreen = document.getElementById('loading-screen');
 const loadingText = document.getElementById('loading-text');
 
 //scratch vectors, reused every frame so the zoom animation allocates nothing
-const scratchLook = new THREE.Vector3();
 const scratchDir = new THREE.Vector3();
-const scratchTarget = new THREE.Vector3();
+
+//the zoom runs on a clock rather than a per-frame lerp, so it always takes the
+//same wall-clock time no matter how fast the browser is drawing this scene
+const ZOOM_DURATION = 700; //ms
+let zoomStart = 0;
+const zoomStartPos = new THREE.Vector3();
+const zoomStartQuat = new THREE.Quaternion();
+const zoomEndQuat = new THREE.Quaternion();
+//used to derive the end orientation from lookTarget. It has to be a Camera, not
+//a plain Object3D: lookAt aims +Z at the target for ordinary objects but -Z for
+//cameras, so an Object3D here would face the wrong way down the same axis.
+const orientationHelper = new THREE.Camera();
 
 let needsRender = true; //the scene is static, so we only redraw when something actually changed
 let pointerMoved = false; //raycast only after the pointer has moved, not on every frame
@@ -474,6 +484,20 @@ window.addEventListener('pointermove', (event) => {
     updatePointer(event.clientX, event.clientY);
 });
 
+//captures where the camera is now and where it needs to end up, then starts the clock
+function startZoom() {
+    zoomStartPos.copy(camera.position);
+    zoomStartQuat.copy(camera.quaternion);
+
+    orientationHelper.position.copy(targetPosition);
+    orientationHelper.up.copy(camera.up);
+    orientationHelper.lookAt(lookTarget);
+    zoomEndQuat.copy(orientationHelper.quaternion);
+
+    zoomStart = performance.now();
+    isZooming = true;
+}
+
 //zooms in on whichever camera is under the pointer
 function selectAtPointer() {
     if (lookingAtObject || isZooming || introOpen) return; //do nothing if we're already looking at an object
@@ -503,7 +527,7 @@ function selectAtPointer() {
         <p>${hit.userData.description}</p>
     `;
 
-    isZooming = true;
+    startZoom();
     setHighlight(hit, false); //clear the hover glow now that we're zoomed in
     pointerMoved = true; //lets updateHover drop the stale hover state and cursor
 }
@@ -536,7 +560,7 @@ closeButton.addEventListener('click', () => {
     targetPosition.copy(origCameraPos);
     lookTarget.copy(origLookTarget);
     lookingAtObject = false;
-    isZooming = true;
+    startZoom();
 });
 
 //stop drawing entirely while the tab is in the background
@@ -628,19 +652,15 @@ function tick() {
     }
 
     if (isZooming) {
-        //move camera smoothly toward the target position
-        camera.position.lerp(targetPosition, 0.05);
+        const t = Math.min((performance.now() - zoomStart) / ZOOM_DURATION, 1);
+        const eased = t * t * (3 - 2 * t); //smoothstep: eases in and out, but actually reaches the target
 
-        //force the camera to look at the look target while zooming in by interpolating the camera's current look direction
-        camera.getWorldDirection(scratchLook);
-        scratchDir.subVectors(lookTarget, camera.position).normalize();
-        scratchLook.lerp(scratchDir, 0.05);
-        camera.lookAt(scratchTarget.addVectors(camera.position, scratchLook));
+        camera.position.lerpVectors(zoomStartPos, targetPosition, eased);
+        camera.quaternion.slerpQuaternions(zoomStartQuat, zoomEndQuat, eased);
 
         needsRender = true;
 
-        //if the camera is close enough to the target position, stop zooming
-        if (camera.position.distanceTo(targetPosition) < 0.05) {
+        if (t === 1) {
             isZooming = false;
             pointerMoved = true; //re-check what's under the pointer now that we've settled
         }
