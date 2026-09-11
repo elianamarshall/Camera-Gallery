@@ -1,5 +1,12 @@
 body {
     margin: 0;
+    overflow: hidden; /* the canvas fills the viewport; nothing should scroll */
+    background: black; /* matches the loading screen, so no white flash on load */
+}
+
+canvas {
+    display: block; /* kills the inline-element baseline gap under the canvas */
+    touch-action: none; /* stop mobile browsers hijacking taps as scroll/zoom gestures */
 }
 
 .popup {
@@ -12,10 +19,15 @@ body {
     border-radius: 10px;
     width: 30vw;
     height: 50vh;
-    font-family:'Courier New', Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
     opacity: 0;
     transition: opacity 0.3s ease;
     pointer-events: none;
+    /* several descriptions are long enough to overflow the fixed height, so let
+       them scroll instead of being silently clipped */
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    box-sizing: border-box;
 }
 
 .popup.show {
@@ -43,8 +55,10 @@ body {
     border: none;
     color: rgb(201, 200, 200);
     font-size: 18px;
+    line-height: 1;
     cursor: pointer;
     opacity: 0;
+    pointer-events: none; /* don't let the invisible button swallow canvas clicks */
 }
 
 .bttn:hover {
@@ -53,6 +67,7 @@ body {
 
 .bttn.show {
     opacity: 1;
+    pointer-events: auto;
 }
 
 #loading-screen {
@@ -62,6 +77,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
 }
 
 #loading-text {
@@ -73,4 +89,58 @@ body {
 a {
     color: orange;
     text-decoration: none;
+}
+
+.noscript {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    color: white;
+    font-family: monospace;
+    text-align: center;
+    padding: 2rem;
+}
+
+/* Phones and small tablets: vw-based boxes collapse to unreadable slivers in
+   portrait, so the pop-ups become bottom sheets instead. */
+@media (max-width: 900px), (orientation: portrait) {
+    .popup {
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: auto;
+        height: 45vh;
+        padding: 1rem;
+        border-radius: 10px 10px 0 0;
+        background-color: rgba(0, 0, 0, 0.75);
+        font-size: 0.9rem;
+    }
+
+    #intro-popup {
+        position: fixed;
+        inset: auto 0 0 0;
+        top: auto;
+        left: 0;
+        width: auto;
+        height: 70vh;
+        transform: none;
+    }
+
+    /* bigger tap target -- 25px is below the ~44px comfortable minimum */
+    .bttn {
+        width: 40px;
+        height: 40px;
+        font-size: 22px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .popup {
+        transition: none;
+    }
 }
